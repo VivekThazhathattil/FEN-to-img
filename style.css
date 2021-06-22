@@ -1,0 +1,15 @@
+:root{
+	color: black;
+}
+#chessboard{
+	display: grid;
+	margin: 10px;
+	background-color: var(--overlay);
+	grid-template-columns: auto auto auto auto auto auto auto auto;
+}
+#image-display{
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+	align-items: center;
+}

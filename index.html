@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			FEN to Image
+		</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="style.css" type="text/css" media="all" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<header>
+			<div id="github-star">
+			</div>
+		</header>
+		<main>
+			<div id="action-container">
+				<div id="searchbar">
+					<input type="text" id="fen-field" placeholder="2rq3r/4bk1p/p2p1p1B/1b1P2pP/3Q4/4R3/PP3P1P/4R1K1 b - - 3 22">
+					</input>
+					<button id="submit-button" type="submit">
+						Convert FEN
+					</button>
+				</div>
+				<div id="toolbar">
+					<label for="select-image-format">Image format</label>
+					<select type="select" id="select-image-format">
+						<option value="svg">SVG</option>
+						<option value="png">PNG</option>
+						<option value="jpeg">JPEG</option>
+					</select>
+					<form id="set-image-resolution">
+						<label for="board-width">Width:</label>
+						<input type="number" id="board-width" placeholder="500"></input>
+						<label for="board-height">Height:</label>
+						<input type="number" id="board-height" placeholder="500"></input>
+					</form>
+					<form id="checkboxes">
+						<label for="show-board-coords">Show board coordinates:</label>
+						<input type="checkbox" id="show-board-coords"></input>
+						<label for="show-border">Show outer border</label>
+						<input type="checkbox" id="show-border"></input>
+						<label for="show-whose-move">Show whose move is next:</label>
+						<input type="checkbox" id="show-whose-move"></input>
+						<label for="flip-board">Flip board:</label>
+						<input type="checkbox" id="flip-board"></input>
+						<label for="border-type">Border type:</label>
+						<select type="select" id="border-type">
+							<option value="solid">Solid</option>
+							<option value="dashed">Dashed</option>
+							<option value="dotted">Dotted</option>
+							<option value="double">Double</option>
+							<option value="ridge">Ridge</option>
+						</select>
+					</form>
+				</div>
+			</div> 
+			<div id="image-container">
+				<div id="image-display">
+				</div>
+				<div id="download-container">
+					<button type="button">Download</button>
+				</div>
+			</div>
+		</main>
+		<footer>
+		</footer>
+	</body>
+</html>
