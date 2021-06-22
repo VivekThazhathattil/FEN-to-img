@@ -240,8 +240,8 @@ function removeChessBoard(){
 }
 
 $(document).ready(() => {
-	let boardWidth = $("#board-width").val();
-	let boardHeight = $("#board-height").val();
+	let boardWidth = $("#board-width").val() == ''? $("#board-width").attr('placeholder') : $("board-width").val();
+	let boardHeight = $("#board-height").val() == ''? $("#board-width").attr('placeholder') : $("board-width").val();
 	let showBoardCoords = $("#show-board-coords").prop("checked");
 	let showBorder = $("#show-border").prop("checked");
 	let showWhoseMove = $("#show-whose-move").prop("checked");
