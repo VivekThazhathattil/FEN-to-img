@@ -1,15 +1,84 @@
 :root{
 	color: black;
 }
-#chessboard{
-	display: grid;
+header{
+	text-align: center;
+}
+#action-container{
+	padding: 10px;
+}
+#searchbar{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+#submit-button{
+	margin-left: 20px;
+}
+label, select{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#toolbar{
 	margin: 10px;
-	background-color: var(--overlay);
-	grid-template-columns: auto auto auto auto auto auto auto auto;
 }
 #image-display{
 	display: flex;
 	flex-direction: column;
 	margin: auto;
 	align-items: center;
+}
+#download-container{
+	margin-top: 50px;
+	text-align: center;
+}
+.round-edge{
+	border-radius: 5px;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.main-layout{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	margin: auto;
+}
+#checkboxes{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: auto;
+}
+.ab{
+	border: dashed red 2px;
+}
+.label{
+	justify-content: space-evenly;
+}
+.checkbox{
+	align-self: center;
+}
+#chessboard{
+	display: grid;
+	margin: 10px;
+	background-color: var(--overlay);
+	grid-template-columns: auto auto auto auto auto auto auto auto;
+	transition: 0.3s;
+}
+@media only screen and (max-width: 850px){
+	.main-layout{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin: auto;
+	}
 }

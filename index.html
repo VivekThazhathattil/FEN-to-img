@@ -9,15 +9,17 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="style.css" type="text/css" media="all" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="dom-to-image.js"></script>
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<header>
-			<div id="github-star">
+		<header class="card round-edge">
+			<h1> FEN to Image </h1>
+			<div id="favicon-container">
 			</div>
 		</header>
-		<main>
-			<div id="action-container">
+		<main class="main-layout">
+			<div id="action-container" class="card round-edge">
 				<div id="searchbar">
 					<input type="text" id="fen-field" placeholder="2rq3r/4bk1p/p2p1p1B/1b1P2pP/3Q4/4R3/PP3P1P/4R1K1 b - - 3 22">
 					</input>
@@ -34,35 +36,39 @@
 					</select>
 					<form id="set-image-resolution">
 						<label for="board-width">Width:</label>
-						<input type="number" id="board-width" placeholder="500"></input>
+						<input type="number" id="board-width" size="5" placeholder="500"></input>
 						<label for="board-height">Height:</label>
-						<input type="number" id="board-height" placeholder="500"></input>
+						<input type="number" id="board-height" size="5" placeholder="500"></input>
 					</form>
-					<form id="checkboxes">
-						<label for="show-board-coords">Show board coordinates:</label>
-						<input type="checkbox" id="show-board-coords"></input>
-						<label for="show-border">Show outer border</label>
+					<form id="checkboxes" class="">
+						<label for="show-board-coords">Show board coordinates:
+						<input type="checkbox" class="checkbox" id="show-board-coords"></input>
+						</label>
+						<label for="show-border" class="label">Show outer border:
 						<input type="checkbox" id="show-border"></input>
-						<label for="show-whose-move">Show whose move is next:</label>
+						</label>
+						<label for="show-whose-move" class="label">Show whose move is next:
 						<input type="checkbox" id="show-whose-move"></input>
-						<label for="flip-board">Flip board:</label>
+						</label>
+						<label for="flip-board" class="label">Flip board:
 						<input type="checkbox" id="flip-board"></input>
-						<label for="border-type">Border type:</label>
-						<select type="select" id="border-type">
-							<option value="solid">Solid</option>
-							<option value="dashed">Dashed</option>
-							<option value="dotted">Dotted</option>
-							<option value="double">Double</option>
-							<option value="ridge">Ridge</option>
-						</select>
+						</label>
 					</form>
+					<label for="border-type" class="label">Border type:</label>
+					<select type="select" id="border-type">
+						<option value="solid">Solid</option>
+						<option value="dashed">Dashed</option>
+						<option value="dotted">Dotted</option>
+						<option value="double">Double</option>
+						<option value="ridge">Ridge</option>
+					</select>
+					<div id="download-container">
+						<button type="button" id="download-button">Download</button>
+					</div>
 				</div>
 			</div> 
 			<div id="image-container">
 				<div id="image-display">
-				</div>
-				<div id="download-container">
-					<button type="button">Download</button>
 				</div>
 			</div>
 		</main>

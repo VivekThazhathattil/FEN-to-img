@@ -105,7 +105,7 @@ function showBoardCoordsFunc(){
 	}
 }
 function createChessBoard(width, height, showBoardCoords, showBorder, showWhoseMove, borderType){
-	$('<div id="chessboard"></div>').appendTo("#image-display");
+	$('<div id="chessboard" class="card"></div>').appendTo("#image-display");
 	$('#chessboard').css({
 		"margin": "auto",
 		"width": width,
@@ -240,6 +240,10 @@ function removeChessBoard(){
 }
 
 $(document).ready(() => {
+	if($(window).width() < 850){
+		$("#board-width").attr('placeholder', ($(window).width()-50));
+		$("#board-height").attr('placeholder',($(window).width()-50));
+	}
 	let boardWidth = $("#board-width").val() == ''? $("#board-width").attr('placeholder') : $("board-width").val();
 	let boardHeight = $("#board-height").val() == ''? $("#board-width").attr('placeholder') : $("board-width").val();
 	let showBoardCoords = $("#show-board-coords").prop("checked");
@@ -279,6 +283,8 @@ $(document).ready(() => {
 		resetBoard();
 	});
 	$("#submit-button").click( ()=>{
+		boardWidth = $("#board-width").val();
+		boardHeight = $("#board-height").val();
 		resetBoard();
 	});
 	$("#flip-board").click( ()=>{
@@ -299,5 +305,18 @@ $(document).ready(() => {
 			$(".coord-col").css("transform","rotateZ(0deg) translateY("+offsetH.toString()+"px)");
 			$(".coord-row").css("transform","rotateZ(0deg) translateX("+offsetW.toString()+"px)");
 		}
+	});
+	$("#download-button").on('click', function () {
+		var node = document.getElementById('image-display');
+	
+		domtoimage.toPng(node)
+	  .then (function (dataUrl) {
+	      var img = new Image();
+	      img.src = dataUrl;
+	      document.appendChild(img);
+	  })
+	  .catch(function (error) {
+	      console.error('oops, something went wrong!', error);
+	  });
 	});
 });
