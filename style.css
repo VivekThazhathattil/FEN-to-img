@@ -1,10 +1,15 @@
 :root{
-	color: black;
+	color: #141B41; /* space-cadet */
+	background-image: url("assets/bg.svg"); 
+	background-size: cover;
 }
 header{
 	text-align: center;
 }
 #action-container{
+	z-index: 10;
+	background-color: white;
+	margin: 20px;
 	padding: 10px;
 }
 #searchbar{
@@ -25,12 +30,17 @@ label, select{
 #image-display{
 	display: flex;
 	flex-direction: column;
-	margin: auto;
+	margin: 20px;
 	align-items: center;
 }
 #download-container{
 	margin-top: 50px;
 	text-align: center;
+}
+#set-image-resolution{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
 }
 .round-edge{
 	border-radius: 5px;
@@ -47,8 +57,8 @@ label, select{
 .main-layout{
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
-	align-items: center;
+	justify-content: space-evenly;
+	align-items: flex-start;
 	margin: auto;
 }
 #checkboxes{
@@ -66,6 +76,17 @@ label, select{
 .checkbox{
 	align-self: center;
 }
+.fade-in{
+  animation: fadeIn 1s;
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -o-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+}
+@keyframes fadeIn {
+  0% {opacity:0; filter: blur(8px);}
+  100% {opacity:1; filter: blur(0px);}
+}
 #chessboard{
 	display: grid;
 	margin: 10px;
@@ -73,11 +94,11 @@ label, select{
 	grid-template-columns: auto auto auto auto auto auto auto auto;
 	transition: 0.3s;
 }
-@media only screen and (max-width: 850px){
+@media only screen and (max-width: 1040px){
 	.main-layout{
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
 		margin: auto;
 	}

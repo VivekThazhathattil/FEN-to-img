@@ -244,55 +244,21 @@ $(document).ready(() => {
 		$("#board-width").attr('placeholder', ($(window).width()-50));
 		$("#board-height").attr('placeholder',($(window).width()-50));
 	}
-	let boardWidth = $("#board-width").val() == ''? $("#board-width").attr('placeholder') : $("board-width").val();
-	let boardHeight = $("#board-height").val() == ''? $("#board-width").attr('placeholder') : $("board-width").val();
-	let showBoardCoords = $("#show-board-coords").prop("checked");
-	let showBorder = $("#show-border").prop("checked");
-	let showWhoseMove = $("#show-whose-move").prop("checked");
-	let borderType = $("#border-type").val();
-	createChessBoard(boardWidth, boardHeight, showBoardCoords, showBorder, showWhoseMove, borderType);
-	createPieces();
 	function resetBoard(){
+		const boardWidth = $("#board-width").val() == ''? $("#board-width").attr('placeholder') : $("#board-width").val();
+		const boardHeight = $("#board-height").val() == ''? $("#board-height").attr('placeholder') : $("#board-height").val();
+		const showBoardCoords = $("#show-board-coords").prop("checked");
+		const showBorder = $("#show-border").prop("checked");
+		const showWhoseMove = $("#show-whose-move").prop("checked");
+		const borderType = $("#border-type").val();
+		console.log(boardWidth,boardHeight);
 		removeChessBoard();
 		createChessBoard(boardWidth, boardHeight, showBoardCoords, showBorder, showWhoseMove, borderType);
 		createPieces();
-	}
-	/* Enter press event */
-	$(document).on('keypress',function(e) {
-	    if(e.which == 13) {
-				boardWidth = $("#board-width").val();
-				boardHeight = $("#board-height").val();
-				resetBoard();
-	    }
-	});
-	/* activate upon change of any properties */
-	$("#show-border").click( ()=>{
-		showBorder = $("#show-border").prop("checked");
-		resetBoard();
-	});
-	$("#show-whose-move").click( ()=>{
-		showWhoseMove = $("#show-whose-move").prop("checked");
-		resetBoard();
-	});
-	$("#show-board-coords").click( ()=>{
-		showBoardCoords = $("#show-board-coords").prop("checked");
-		resetBoard();
-	});
-	$("#border-type").change( ()=>{
-		borderType = $("#border-type").val();
-		resetBoard();
-	});
-	$("#submit-button").click( ()=>{
-		boardWidth = $("#board-width").val();
-		boardHeight = $("#board-height").val();
-		resetBoard();
-	});
-	$("#flip-board").click( ()=>{
-		resetBoard();
-		let offsetW  = $("#a1").innerWidth()/2.75;
-		let offsetH  = $("#a1").innerHeight()/2.75;
-		let flipOffsetW  = $("#chessboard").innerWidth() - $("#a1").innerWidth()/1.65;
-		let flipOffsetH  = $("#chessboard").innerHeight() - $("#a1").innerHeight()/1.65;
+		const offsetW  = $("#a1").innerWidth()/2.75;
+		const offsetH  = $("#a1").innerHeight()/2.75;
+		const flipOffsetW  = $("#chessboard").innerWidth() - $("#a1").innerWidth()/1.65;
+		const flipOffsetH  = $("#chessboard").innerHeight() - $("#a1").innerHeight()/1.65;
 		if($("#flip-board").prop("checked")){
 			$("#chessboard").css("transform","rotateZ(180deg)");
 			$(".piece").css("transform","rotateZ(180deg)");
@@ -300,23 +266,36 @@ $(document).ready(() => {
 			$(".coord-row").css({"transform":"rotateZ(180deg) translateX("+flipOffsetW.toString()+"px)","color":"black"});
 		}
 		else{
-			$("#chessboard").css("transform","rotateZ(0deg)");
-			$(".piece").css("transform","rotateZ(0deg)");
-			$(".coord-col").css("transform","rotateZ(0deg) translateY("+offsetH.toString()+"px)");
-			$(".coord-row").css("transform","rotateZ(0deg) translateX("+offsetW.toString()+"px)");
+			$("#chessboard").css("transform","rotateZ(360deg)");
+			$(".piece").css("transform","rotateZ(360deg)");
+			$(".coord-col").css("transform","rotateZ(360deg) translateY("+offsetH.toString()+"px)");
+			$(".coord-row").css("transform","rotateZ(360deg) translateX("+offsetW.toString()+"px)");
 		}
+	}
+	resetBoard();
+	/* Enter press event */
+	$(document).on('keypress',function(e) {
+	    if(e.which == 13) {
+				resetBoard();
+	    }
 	});
+	/* activate upon change of any properties */
+	$("#show-border").click(()=>{resetBoard()});
+	$("#show-whose-move").click(()=>{resetBoard()});
+	$("#show-board-coords").click(()=>{resetBoard()});
+	$("#border-type").change(()=>{resetBoard()});
+	$("#submit-button").click(()=>{resetBoard()});
+	$("#flip-board").click( ()=>{resetBoard()});
 	$("#download-button").on('click', function () {
 		var node = document.getElementById('image-display');
-	
 		domtoimage.toPng(node)
-	  .then (function (dataUrl) {
-	      var img = new Image();
-	      img.src = dataUrl;
-	      document.appendChild(img);
-	  })
-	  .catch(function (error) {
-	      console.error('oops, something went wrong!', error);
-	  });
+		  .then(function (dataUrl) {
+		    var img = new Image();
+		    img.src = dataUrl;
+		    document.body.appendChild(img);
+		  })
+		  .catch(function (error) {
+		    console.error('oops, something went wrong!', error);
+		  });
 	});
 });
