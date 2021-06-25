@@ -255,6 +255,10 @@ $(document).ready(() => {
 		removeChessBoard();
 		createChessBoard(boardWidth, boardHeight, showBoardCoords, showBorder, showWhoseMove, borderType);
 		createPieces();
+
+		/* try canvas */
+		drawChessBoard(boardWidth, boardHeight);
+
 		const offsetW  = $("#a1").innerWidth()/2.75;
 		const offsetH  = $("#a1").innerHeight()/2.75;
 		const flipOffsetW  = $("#chessboard").innerWidth() - $("#a1").innerWidth()/1.65;
@@ -287,15 +291,58 @@ $(document).ready(() => {
 	$("#submit-button").click(()=>{resetBoard()});
 	$("#flip-board").click( ()=>{resetBoard()});
 	$("#download-button").on('click', function () {
-		var node = document.getElementById('image-display');
-		domtoimage.toPng(node)
-		  .then(function (dataUrl) {
-		    var img = new Image();
-		    img.src = dataUrl;
-		    document.body.appendChild(img);
-		  })
-		  .catch(function (error) {
-		    console.error('oops, something went wrong!', error);
-		  });
+		var canvas = document.getElementById("chessboard-canvas");
+		var img    = canvas.toDataURL("image/png");
+		document.write('<img src="'+img+'"/>');
 	});
+
 });
+
+/* canvas functions */
+function prependCanvasToImageDisplay(w, h){
+	$("#image-display").prepend('<canvas id="chessboard-canvas" class="card" width='+ w + ' height=' + h + '></canvas>')
+	$("#chessboard-canvas").css({
+		"background":"white",
+		"display":"none",
+	});
+}
+function drawChessBoardOnCanvas(ctx, w, h){
+	for(let i = 0; i < 8; i++)
+		for(let j = 0; j < 8; j++){
+			ctx.fillStyle = colors[(i+j)%2];
+			ctx.fillRect(i*w, j*h, w, h);
+		}
+}
+function drawSinglePiece(ctx, img, w, h, multX, multY){
+	const denom = 4;
+	let dim = Math.min(w, h);
+	dim = dim/1.4;
+	img.onload = function() {
+    ctx.drawImage(img, (multX - 1)* w + w/2 - dim/2, (multY - 1) * h + h/2 - dim/2, dim, dim);
+	}
+}
+
+function setImgSrc(img, arr){
+	img.src = "assets/pieces/" + (/[A-Z]/.test(arr[2]) ?"w" :"b") + arr[2].toLowerCase()+ ".svg";
+}
+
+function drawPieces(ctx, w, h){
+	fen = "2rq3r/4bk1p/p2p1p1B/1b1P2pP/3Q4/4R3/PP3P1P/4R1K1 b - - 3 22";
+	const piecesObj = getPieceLocFromFEN(fen);
+	const piecesArr = [...piecesObj.white, ...piecesObj.black];
+	let img = [];
+	for(let i = 0; i < piecesArr.length; i++){
+		img.push(new Image());	
+		setImgSrc(img[i], piecesArr[i]); //check if allowed
+		drawSinglePiece(ctx, img[i], w, h, piecesArr[i][0], piecesArr[i][1]);
+	}
+}
+function drawChessBoard(w, h){
+	prependCanvasToImageDisplay(w, h);
+	const canvas = document.getElementById("chessboard-canvas");
+	let ctx = canvas.getContext("2d");
+	const squareWidth = w/8;
+	const squareHeight = h/8;
+	drawChessBoardOnCanvas(ctx, squareWidth, squareHeight);
+	drawPieces(ctx, squareWidth, squareHeight);
+}
