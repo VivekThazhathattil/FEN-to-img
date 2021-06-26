@@ -251,13 +251,13 @@ $(document).ready(() => {
 		const showBorder = $("#show-border").prop("checked");
 		const showWhoseMove = $("#show-whose-move").prop("checked");
 		const borderType = $("#border-type").val();
-		console.log(boardWidth,boardHeight);
+		const boardFlip = $("#flip-board").prop("checked");
 		removeChessBoard();
 		createChessBoard(boardWidth, boardHeight, showBoardCoords, showBorder, showWhoseMove, borderType);
 		createPieces();
 
 		/* try canvas */
-		drawChessBoard(boardWidth, boardHeight);
+		drawChessBoard(boardWidth, boardHeight, showBoardCoords, boardFlip);
 
 		const offsetW  = $("#a1").innerWidth()/2.75;
 		const offsetH  = $("#a1").innerHeight()/2.75;
@@ -303,7 +303,7 @@ function prependCanvasToImageDisplay(w, h){
 	$("#image-display").prepend('<canvas id="chessboard-canvas" class="card" width='+ w + ' height=' + h + '></canvas>')
 	$("#chessboard-canvas").css({
 		"background":"white",
-		"display":"none",
+//		"display":"none",
 	});
 }
 function drawChessBoardOnCanvas(ctx, w, h){
@@ -318,7 +318,7 @@ function drawSinglePiece(ctx, img, w, h, multX, multY){
 	let dim = Math.min(w, h);
 	dim = dim/1.4;
 	img.onload = function() {
-    ctx.drawImage(img, (multX - 1)* w + w/2 - dim/2, (multY - 1) * h + h/2 - dim/2, dim, dim);
+    ctx.drawImage(img, (multX - 1)* w + w/2 - dim/2, (8 - multY) * h + h/2 - dim/2, dim, dim);
 	}
 }
 
@@ -326,23 +326,60 @@ function setImgSrc(img, arr){
 	img.src = "assets/pieces/" + (/[A-Z]/.test(arr[2]) ?"w" :"b") + arr[2].toLowerCase()+ ".svg";
 }
 
-function drawPieces(ctx, w, h){
-	fen = "2rq3r/4bk1p/p2p1p1B/1b1P2pP/3Q4/4R3/PP3P1P/4R1K1 b - - 3 22";
+function drawPieces(ctx, w, h, rotated){
+	let fen = $("#fen-field").val() == '' ? $("#fen-field").attr('placeholder') : $("#fen-field").val();
 	const piecesObj = getPieceLocFromFEN(fen);
 	const piecesArr = [...piecesObj.white, ...piecesObj.black];
 	let img = [];
-	for(let i = 0; i < piecesArr.length; i++){
-		img.push(new Image());	
-		setImgSrc(img[i], piecesArr[i]); //check if allowed
-		drawSinglePiece(ctx, img[i], w, h, piecesArr[i][0], piecesArr[i][1]);
+	if(!rotated){
+		for(let i = 0; i < piecesArr.length; i++){
+			img.push(new Image());	
+			setImgSrc(img[i], piecesArr[i]); //check if allowed
+			drawSinglePiece(ctx, img[i], w, h, piecesArr[i][0], piecesArr[i][1]);
+		}
+	}
+	else{
+		for(let i = 0; i < piecesArr.length; i++){
+			img.push(new Image());	
+			setImgSrc(img[i], piecesArr[i]); //check if allowed
+			drawSinglePiece(ctx, img[i], w, h, 8 - piecesArr[i][0] + 1, 8 - piecesArr[i][1] + 1);
+		}
 	}
 }
-function drawChessBoard(w, h){
+function drawText(ctx, text,centerX,centerY,fontsize,fontface, color){
+  ctx.save();
+  ctx.font=fontsize+'px '+fontface;
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+	ctx.fillStyle = color;
+  ctx.fillText(text,centerX,centerY);
+  ctx.restore();
+}
+function drawCoords(ctx, w, h, rotated){
+	const fileNames = "abcdefgh";
+	const fontSize = 16 * Math.min(w,h) * 8/500;
+	if(!rotated){
+		for(let i = 0; i < 8; i++){
+			drawText(ctx, fileNames.charAt(i), i*w + w/2, (8*h - fontSize/2), fontSize, "Arial", (i%2 == 0)? colors[0] : colors[1]); 
+			drawText(ctx, 8-i, 8*w - fontSize/2, i*h + h/2, fontSize, "Arial", (i%2 == 0)? colors[0] : colors[1]);
+		}
+	}
+	else{
+		for(let i = 0; i < 8; i++){
+			drawText(ctx, fileNames.charAt(8-i-1), i*w + w/2, (8*h - fontSize/2), fontSize, "Arial", (i%2 == 0)? colors[0] : colors[1]); 
+			drawText(ctx, i+1, 8*w - fontSize/2, i*h + h/2, fontSize, "Arial", (i%2 == 0)? colors[0] : colors[1]);
+		}
+	}
+}
+function drawChessBoard(w, h, coords, rotated){
 	prependCanvasToImageDisplay(w, h);
 	const canvas = document.getElementById("chessboard-canvas");
 	let ctx = canvas.getContext("2d");
 	const squareWidth = w/8;
 	const squareHeight = h/8;
 	drawChessBoardOnCanvas(ctx, squareWidth, squareHeight);
-	drawPieces(ctx, squareWidth, squareHeight);
+	console.log(coords);
+	if(coords)
+		drawCoords(ctx, w/8, h/8, rotated);
+	drawPieces(ctx, squareWidth, squareHeight, rotated);
 }
