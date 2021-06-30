@@ -292,13 +292,14 @@ $(document).ready(() => {
 	$("#flip-board").click( ()=>{resetBoard()});
 	$("#download-button").on('click', function () {
 		var canvas = document.getElementById("chessboard-canvas");
-		var img    = canvas.toDataURL("image/png");
+		var img    = canvas.toDataURL("image/svg");
 		document.write('<img src="'+img+'"/>');
 	});
 
 });
 
 /* canvas functions */
+
 function prependCanvasToImageDisplay(w, h){
 	$("#image-display").prepend('<canvas id="chessboard-canvas" class="card" width='+ w + ' height=' + h + '></canvas>')
 	$("#chessboard-canvas").css({
@@ -377,6 +378,15 @@ function drawChessBoard(w, h, coords, rotated){
 	let ctx = canvas.getContext("2d");
 	const squareWidth = w/8;
 	const squareHeight = h/8;
+
+	/* fix for blurry canvas */
+	/* Reference: https://medium.com/wdstack/fixing-html5-2d-canvas-blur-8ebe27db07da */
+	let dpi = window.devicePixelRatio;
+	let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+	let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+	canvas.setAttribute('height', style_height * dpi);
+	canvas.setAttribute('width', style_width * dpi);
+
 	drawChessBoardOnCanvas(ctx, squareWidth, squareHeight);
 	console.log(coords);
 	if(coords)
