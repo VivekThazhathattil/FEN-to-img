@@ -272,7 +272,7 @@ $(document).ready(() => {
 		createPieces();
 
 		/* try canvas */
-		drawChessBoard(boardWidth, boardHeight, showBoardCoords, boardFlip);
+		drawChessBoard(boardWidth, boardHeight, showBoardCoords, boardFlip, showBorder);
 
 		const offsetW  = $("#a1").innerWidth()/2.75;
 		const offsetH  = $("#a1").innerHeight()/2.75;
@@ -387,10 +387,19 @@ function drawCoords(ctx, w, h, rotated){
 		}
 	}
 }
-function drawChessBoard(w, h, coords, rotated){
+function drawCanvasBorder(ctx){
+	ctx.save();
+	ctx.beginPath();
+	ctx.strokeStyle = '#000';
+	ctx.lineWidth = 4;     
+	ctx.strokeRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+	ctx.restore();
+}
+function drawChessBoard(w, h, coords, rotated, border){
 	prependCanvasToImageDisplay(w, h);
 	const canvas = document.getElementById("chessboard-canvas");
 	let ctx = canvas.getContext("2d");
+
 	const squareWidth = w/8;
 	const squareHeight = h/8;
 
@@ -406,5 +415,7 @@ function drawChessBoard(w, h, coords, rotated){
 	console.log(coords);
 	if(coords)
 		drawCoords(ctx, w/8, h/8, rotated);
+	if(border)
+		drawCanvasBorder(ctx);
 	drawPieces(ctx, squareWidth, squareHeight, rotated);
 }
