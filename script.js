@@ -244,6 +244,21 @@ $(document).ready(() => {
 		$("#board-width").attr('placeholder', ($(window).width()-50));
 		$("#board-height").attr('placeholder',($(window).width()-50));
 	}
+
+	/* get colors from colorpicker*/
+	//$("#white-color").attr("value",colors[0]);
+	//$("#black-color").attr("value",colors[1]);
+	colors[0] = $("#white-color")['0'].value;
+	colors[1] = $("#black-color")['0'].value;
+
+	$("#white-color").change(()=>{
+		colors[0] = $("#white-color")['0'].value;
+		resetBoard();
+	});
+	$("#black-color").change(()=>{
+		colors[1] = $("#black-color")['0'].value;
+		resetBoard();
+	});
 	function resetBoard(){
 		const boardWidth = $("#board-width").val() == ''? $("#board-width").attr('placeholder') : $("#board-width").val();
 		const boardHeight = $("#board-height").val() == ''? $("#board-height").attr('placeholder') : $("#board-height").val();
@@ -301,10 +316,10 @@ $(document).ready(() => {
 /* canvas functions */
 
 function prependCanvasToImageDisplay(w, h){
-	$("#image-display").prepend('<canvas id="chessboard-canvas" class="card" width='+ w + ' height=' + h + '></canvas>')
+	$("#image-display").append('<canvas id="chessboard-canvas" class="card" width='+ w + ' height=' + h + '></canvas>')
 	$("#chessboard-canvas").css({
 		"background":"white",
-//		"display":"none",
+		"visibility":"hidden",
 	});
 }
 function drawChessBoardOnCanvas(ctx, w, h){

@@ -17,6 +17,12 @@ header{
 	flex-direction: row;
 	justify-content: space-between;
 }
+.white-text{
+	color: white;
+}
+.big-font{
+	font-size: 50px;
+}
 #submit-button{
 	margin-left: 20px;
 }
