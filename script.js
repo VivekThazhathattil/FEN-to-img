@@ -320,7 +320,9 @@ function prependCanvasToImageDisplay(w, h){
 	$("#chessboard-canvas").css({
 		"background":"white",
 		"visibility":"hidden",
+        "max-height": "0"
 	});
+    
 }
 function drawChessBoardOnCanvas(ctx, w, h){
 	for(let i = 0; i < 8; i++)
